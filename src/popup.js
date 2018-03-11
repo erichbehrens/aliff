@@ -33,7 +33,11 @@ class Popup extends React.Component {
 				(response) => {
 					const { options } = this.state;
 					const nextState = { activeElement: response };
-					if (['div', 'textarea'].includes(response.elementType)) {
+					if (!response) {
+						options.html = true;
+						nextState.options = options;
+						nextState.text = this.getText('paragraphs', options);
+					} else if (['div', 'textarea'].includes(response.elementType)) {
 						options.html = response.elementType === 'div';
 						nextState.options = options;
 						nextState.text = this.getText('paragraphs', options);
@@ -190,11 +194,14 @@ class Popup extends React.Component {
 	render() {
 		const { activeElement, text, options, preview, debug } = this.state;
 		const isMultiline = activeElement && ['div', 'textarea'].includes(activeElement.elementType);
+		const isSingleline = activeElement && ['input'].includes(activeElement.elementType);
+		const isUndefined = !isMultiline && !isSingleline;
 		const isNumeric = activeElement && ['input'].includes(activeElement.elementType) && ['phone', 'number', 'tel'].includes(activeElement.type);
+		const showPreview = isMultiline || isUndefined;
 		return (
 			<div className={styles.popup}>
 				<div>
-					{!isMultiline && <div>
+					{isSingleline && <div>
 						{isNumeric && <div>
 							<h1>Number generator</h1>
 							<div
@@ -225,11 +232,11 @@ class Popup extends React.Component {
 							</div>
 						</div>}
 					</div>}
-					{(!activeElement || isMultiline) && <div>
+					{(isUndefined || isMultiline) && <div>
 						<h1>Paragraph generator</h1>
 						<label>
 							<input type="checkbox" onChange={this.toggleHtml} checked={options.html} />
-							Insert html
+							Generate html
 						</label>
 						<div className={`${styles.optionsGrid} ${styles.multiline}`}
 							onMouseMove={this.setMultilinePreview}
@@ -252,7 +259,7 @@ class Popup extends React.Component {
 						</div>
 					</div>}
 
-					<div className={`${styles.previewContainer} ${isMultiline ? styles.visible : styles.hidden}`}>
+					<div className={`${styles.previewContainer} ${showPreview ? styles.visible : styles.hidden}`}>
 						Preview:
 						{options.html && <div
 							ref={(ref) => { this.ref = ref; }}
