@@ -5,7 +5,7 @@ import styles from './Options.css';
 class Options extends React.Component {
 	render() { // eslint-disable-line class-methods-use-this
 		return <div className={styles.message}>
-			Extension playground
+			<h1>Extension playground</h1>
 			<form>
 				<input /> input<br />
 				<input type="text" /> input type=text<br />

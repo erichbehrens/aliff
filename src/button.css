@@ -1,0 +1,106 @@
+button {
+  font-family: "Roboto medium", sans-serif;
+  font-size: 14px;
+  display: inline-block;
+  height: 36px;
+  min-width: 88px;
+  padding: 6px 16px;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: middle;
+  cursor: pointer;
+  border: 0;
+  border-radius: 2px;
+  background: rgb(250, 250, 250);
+  color: #666;
+  outline: 0;
+  transition: box-shadow 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14),
+    0 1px 5px 0 rgba(0, 0, 0, 0.12),
+    0 3px 1px -2px rgba(0, 0, 0, 0.2);
+  overflow: hidden;
+  position: relative;
+
+  &:hover,
+  &:focus,
+  &:active {
+    background: color(rgb(250, 250, 250) shade(12%));
+    box-shadow: 0 6px 10px 1px rgba(0, 0, 0, 0.14),
+      0 3px 14px 2px rgba(0, 0, 0, 0.12),
+      0 3px 3px -3px rgba(0, 0, 0, 0.4);
+  }
+
+  &:global(.primary) {
+    color: #fff;
+    background: rgb(33, 150, 243);
+
+    &:hover,
+    &:focus,
+    &:active {
+      background: color(rgb(33, 150, 243) shade(12%));
+    }
+  }
+
+  &:global(.success) {
+    color: white;
+    background: rgb(76, 175, 80);
+
+    &:hover,
+    &:focus,
+    &:active {
+      background: color(rgb(76, 175, 80) tint(12%));
+    }
+  }
+
+  &:global(.warning) {
+    color: white;
+    background: rgb(198, 40, 40);
+
+    &:hover,
+    &:focus,
+    &:active {
+      background: color(rgb(198, 40, 40) shade(12%));
+    }
+  }
+
+  &:after {
+    content: ' ';
+    display: block;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 120px;
+    height: 120px;
+    margin-left: -60px;
+    margin-top: -60px;
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 100%;
+    transform: scale(0);
+    box-sizing: border-box;
+  }
+
+  &:after {
+    visibility: hidden;
+  }
+
+  &:hover:after,
+  &:focus:after {
+    visibility: visible;
+    animation: ripple .5s ease-out;
+  }
+}
+
+@keyframes ripple {
+  0% {
+    transform: scale(0);
+  }
+
+  20% {
+    transform: scale(1);
+  }
+
+  100% {
+    opacity: 0;
+    transform: scale(2);
+  }
+}

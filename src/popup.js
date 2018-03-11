@@ -193,49 +193,44 @@ class Popup extends React.Component {
 		const isNumeric = activeElement && ['input'].includes(activeElement.elementType) && ['phone', 'number', 'tel'].includes(activeElement.type);
 		return (
 			<div className={styles.popup}>
-				<div className={`${styles.previewContainer} ${isMultiline ? styles.visible : styles.hidden}`}>
-					{options.html && <div
-						ref={(ref) => { this.ref = ref; }}
-						dangerouslySetInnerHTML={{ __html: text }}
-						className={styles.preview}
-						contentEditable
-					/>}
-					{!options.html && <textarea
-						ref={(ref) => { this.ref = ref; }}
-						value={text}
-						className={styles.preview}
-					/>}
-				</div>
-				{activeElement && <div>
+				<div>
 					{!isMultiline && <div>
-						Single line
-						{isNumeric && <div
-							className={`${styles.optionsGrid} ${styles.number}`}
-							onMouseMove={this.setNumberPreview}
-							onMouseLeave={this.resetNumberPreview}
-							onClick={this.insertNumber}
-							ref={(ref) => { this.numberPowerGrid = ref; }}
-						>
-							<div className={styles.singlelineOptions}>
-								<div className={styles.selection} style={{ width: `${((preview.numberPower || options.numberPower) / 10) * 100}%` }}>
-									<span className={`${styles.word} ${styles.active}`}>{text}</span>
+						{isNumeric && <div>
+							<h1>Number generator</h1>
+							<div
+								className={`${styles.optionsGrid} ${styles.number}`}
+								onMouseMove={this.setNumberPreview}
+								onMouseLeave={this.resetNumberPreview}
+								onClick={this.insertNumber}
+								ref={(ref) => { this.numberPowerGrid = ref; }}
+							>
+								<div className={styles.singlelineOptions}>
+									<div className={styles.selection} style={{ width: `${((preview.numberPower || options.numberPower) / 10) * 100}%` }}>
+										<span className={`${styles.word} ${styles.active}`}>{text}</span>
+									</div>
 								</div>
 							</div>
 						</div>}
-						{!isNumeric && <div className={`${styles.optionsGrid} ${styles.singleline}`}>
-							<div className={styles.singlelineOptions}>
-								{text && text.split(' ').map((word, index) => <span
-									onMouseMove={() => this.setSinglelinePreview(index + 1)}
-									onMouseLeave={this.resetSinglelinePreview}
-									onClick={this.insertWords}
-									className={`${styles.word} ${index < (preview.words || options.words) ? styles.active : ''}`}
-								>{word} </span>)}
+						{!isNumeric && <div>
+							<h1>Text generator</h1>
+							<div className={`${styles.optionsGrid} ${styles.singleline}`}>
+								<div className={styles.singlelineOptions}>
+									{text && text.split(' ').map((word, index) => <span
+										onMouseMove={() => this.setSinglelinePreview(index + 1)}
+										onMouseLeave={this.resetSinglelinePreview}
+										onClick={this.insertWords}
+										className={`${styles.word} ${index < (preview.words || options.words) ? styles.active : ''}`}
+									>{word} </span>)}
+								</div>
 							</div>
 						</div>}
 					</div>}
-					{isMultiline && <div>
-						Multiline
-						<label><input type="checkbox" onChange={this.toggleHtml} checked={options.html} />Insert html</label>
+					{(!activeElement || isMultiline) && <div>
+						<h1>Paragraph generator</h1>
+						<label>
+							<input type="checkbox" onChange={this.toggleHtml} checked={options.html} />
+							Insert html
+						</label>
 						<div className={`${styles.optionsGrid} ${styles.multiline}`}
 							onMouseMove={this.setMultilinePreview}
 							onMouseLeave={this.resetMultilinePreview}
@@ -247,20 +242,36 @@ class Popup extends React.Component {
 									style={{
 										height: `${((preview.paragraphs || options.paragraphs) / 10) * 100}%`,
 										width: `${((preview.paragraphSentences || options.paragraphSentences) / 15) * 100}%`,
-									}}>
-									{preview.paragraphs || options.paragraphs}
-									x
-									{preview.paragraphSentences || options.paragraphSentences}
+									}} />
+								<div className={styles.optionsPreview}>
+									{preview.paragraphs || options.paragraphs} paragraphs<br />
+									x<br />
+									{preview.paragraphSentences || options.paragraphSentences} senteces
 								</div>
 							</div>
 						</div>
 					</div>}
 
+					<div className={`${styles.previewContainer} ${isMultiline ? styles.visible : styles.hidden}`}>
+						Preview:
+						{options.html && <div
+							ref={(ref) => { this.ref = ref; }}
+							dangerouslySetInnerHTML={{ __html: text }}
+							className={styles.preview}
+							contentEditable
+						/>}
+						{!options.html && <textarea
+							ref={(ref) => { this.ref = ref; }}
+							value={text}
+							className={styles.preview}
+						/>}
+					</div>
+
 					<div className={styles.actionBar}>
 						<button
-							className={styles.confirm}
+							className={`success ${styles.confirm}`}
 							onClick={this.insertText}
-						>{activeElement.elementType !== 'body' ? 'Insert' : 'Copy to clipboard'}</button>
+						>{(activeElement && activeElement.elementType !== 'body') ? 'Insert' : 'Copy to clipboard'}</button>
 					</div>
 
 					{debug && <div>
@@ -271,7 +282,7 @@ class Popup extends React.Component {
 						{activeElement.name},
 						{activeElement.type}.
 					</div>}
-				</div>}
+				</div>
 			</div>
 		);
 	}
