@@ -4,22 +4,35 @@ import styles from './Options.css';
 
 class Options extends React.Component {
 	render() { // eslint-disable-line class-methods-use-this
-		return <div className={styles.message}>
-			<h1>Extension playground</h1>
-			<form>
-				<input /> input<br />
-				<input type="text" /> input type=text<br />
-				<input type="number" /> input type=number<br />
-				<input type="tel" /> inopput type=tel<br />
-				<input type="email" /> input type=email<br />
-				<input type="date" /> input type=date<br />
-				<br />
-				Textarea:<br />
-				<textarea rows={20} cols={80} /><br />
-				<br />
-				Content editable<br />
-				<div className={styles.contentEditable} contentEditable />
-			</form>
+		return <div>
+			<div className={`${styles.panel} ${styles.playground}`}>
+				<form>
+					<h1>Extension playground</h1>
+					<fieldset>
+						<input id="text" type="text" required />
+						<label for="text">Text</label>
+					</fieldset>
+					<fieldset>
+						<input id="email" type="email" required />
+						<label for="email">Email</label>
+					</fieldset>
+					<fieldset>
+						<input id="tel" type="tel" required />
+						<label for="tel">Phone</label>
+					</fieldset>
+					<fieldset>
+						<input id="number" type="number" required />
+						<label for="number">Some number</label>
+					</fieldset>
+					<fieldset>
+						<textarea required />
+						<label>Textarea</label>
+					</fieldset>
+					<br />
+					Content editable<br />
+					<div className={styles.contentEditable} contentEditable />
+				</form>
+			</div>
 		</div>;
 	}
 }
