@@ -47,9 +47,17 @@ class Popup extends React.Component {
 					} else {
 						nextState.text = this.getText('words');
 					}
-					this.setState(nextState);
+					this.setState(nextState, this.setEnterHandler);
 				},
 			);
+		});
+	}
+
+	setEnterHandler = () => {
+		window.addEventListener('keyup', (event) => {
+			if (event.which === 13) {
+				this.insertText();
+			}
 		});
 	}
 
