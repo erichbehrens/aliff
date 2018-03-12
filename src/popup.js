@@ -58,9 +58,18 @@ class Popup extends React.Component {
 	setEnterHandler = () => {
 		window.addEventListener('keyup', (event) => {
 			if (event.which === 13) {
-				this.insertText();
+				this.action();
 			}
 		});
+	}
+
+	action = () => {
+		const { activeElement } = this.state;
+		if (activeElement && activeElement.type === 'text') {
+			this.insertWords();
+			return;
+		}
+		this.insertText();
 	}
 
 	insertText = () => {
@@ -84,7 +93,7 @@ class Popup extends React.Component {
 
 	insertWords = () => {
 		const { preview, options, text } = this.state;
-		options.words = preview.words;
+		options.words = preview.words || options.words;
 		preview.words = undefined;
 		const selectedText = text.split(' ').slice(0, options.words).join(' ');
 		this.setState({ preview, options, text: selectedText }, this.insertText);
@@ -295,7 +304,7 @@ class Popup extends React.Component {
 					<div className={styles.actionBar}>
 						<button
 							className={`success ${styles.confirm}`}
-							onClick={this.insertText}
+							onClick={this.action}
 						>{(activeElement && activeElement.elementType !== 'body') ? 'Insert' : 'Copy to clipboard'}</button>
 					</div>
 
