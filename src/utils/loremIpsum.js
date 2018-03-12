@@ -25,6 +25,7 @@ function averageRandom(input, deviation = 0.3) {
 }
 
 const htmlTags = 'strong,em,u'.split(',');
+const titleTags = 'h2,h3,h4'.split(',');
 const punctuation = '.....,,:;?!'.split('');
 const finalPunctuation = '.....?!'.split('');
 function getPuntuation(isFinal) {
@@ -62,7 +63,8 @@ function getSentence(words, isFinal, html = false) {
 function getSentences(count, words, flatten = true, html = false) {
 	const sentences = [];
 	if (html) {
-		sentences.push(`<h2>${getWords(averageRandom(3))}</h2>`);
+		const titleTag = getRandom(titleTags);
+		sentences.push(`<${titleTag}>${getWords(averageRandom(3))}</${titleTag}>`);
 	}
 	for (let i = 0; i < count - 1; i++) {
 		sentences.push(getSentence(averageRandom(words, 0.5), false, html));
