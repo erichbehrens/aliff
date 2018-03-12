@@ -1,6 +1,6 @@
 {
   "name": "aliff",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Awesome Lorem Ipsum Generator & Form Filler: generate lorem ipsum or other random text, html or numbers to quickly fill your forms.",
   "main": "src/background.js",
   "scripts": {

@@ -15,5 +15,6 @@ Support for:
 - content editable (rich text / html editors)
 - number input
 - telephone input
+- email input
 
 This extension uses copy and paste commands to ensure all javascript events are triggered and the form is properly handled by the page.
