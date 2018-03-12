@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import styles from './Popup.css';
-import { getWords, getParagraphs } from './utils/loremIpsum';
+import { getWords, getParagraphs, getEmail, getRandomNumber } from './utils/loremIpsum';
 
 class Popup extends React.Component {
 	state = {
@@ -44,6 +44,8 @@ class Popup extends React.Component {
 					} else if (['number', 'tel'].includes(response.type)) {
 						options.numberPattern = response.type === 'tel' ? '+## ## ### ## ##' : undefined;
 						nextState.text = this.getNumber(options);
+					} else if (['email'].includes(response.type)) {
+						nextState.text = this.getText('email');
 					} else {
 						nextState.text = this.getText('words');
 					}
@@ -108,6 +110,8 @@ class Popup extends React.Component {
 
 	getText = (type, options = this.state.options) => {
 		switch (type) {
+			case 'email':
+				return getEmail();
 			case 'words':
 				return getWords(10);
 			case 'paragraphs':
@@ -118,10 +122,10 @@ class Popup extends React.Component {
 
 	getNumber = (options = this.state.options) => {
 		if (options.numberPattern) {
-			return options.numberPattern.replace(/#/g, () => Math.round(Math.random() * 9));
+			return options.numberPattern.replace(/#/g, () => getRandomNumber(9));
 		}
 		const base = 10 ** (options.numberPower - 1);
-		return Math.round(base + (Math.random() * base * 9));
+		return getRandomNumber(base, (base * 10) - 1);
 	}
 
 	isDrawing = false;
@@ -201,10 +205,12 @@ class Popup extends React.Component {
 
 	render() {
 		const { activeElement, text, options, preview, debug } = this.state;
+		const type = activeElement && activeElement.type;
 		const isMultiline = activeElement && ['div', 'textarea'].includes(activeElement.elementType);
 		const isSingleline = activeElement && ['input'].includes(activeElement.elementType);
 		const isUndefined = !isMultiline && !isSingleline;
-		const isNumeric = activeElement && ['input'].includes(activeElement.elementType) && ['phone', 'number', 'tel'].includes(activeElement.type);
+		const isNumeric = activeElement && ['input'].includes(activeElement.elementType) && ['number', 'tel'].includes(type);
+		const isEmail = activeElement && ['input'].includes(activeElement.elementType) && ['email'].includes(type);
 		const showPreview = isMultiline || isUndefined;
 		return (
 			<div className={styles.popup}>
@@ -213,14 +219,17 @@ class Popup extends React.Component {
 						{isNumeric && <div>
 							<h1>Number generator</h1>
 							<div
-								className={`${styles.optionsGrid} ${styles.number}`}
+								className={`${styles.optionsGrid} ${styles.number} ${styles[type]}`}
 								onMouseMove={this.setNumberPreview}
 								onMouseLeave={this.resetNumberPreview}
 								onClick={this.insertNumber}
 								ref={(ref) => { this.numberPowerGrid = ref; }}
 							>
 								<div className={styles.singlelineOptions}>
-									<div className={styles.selection} style={{ width: `${((preview.numberPower || options.numberPower) / 10) * 100}%` }}>
+									<div
+										className={styles.selection}
+										{...type !== 'tel' && { style: { width: `${((preview.numberPower || options.numberPower) / 10) * 100}%` } }}
+									>
 										<span className={`${styles.word} ${styles.active}`}>{text}</span>
 									</div>
 								</div>
@@ -230,12 +239,13 @@ class Popup extends React.Component {
 							<h1>Text generator</h1>
 							<div className={`${styles.optionsGrid} ${styles.singleline}`}>
 								<div className={styles.singlelineOptions}>
-									{text && text.split(' ').map((word, index) => <span
+									{!isEmail && text && text.split(' ').map((word, index) => <span
 										onMouseMove={() => this.setSinglelinePreview(index + 1)}
 										onMouseLeave={this.resetSinglelinePreview}
 										onClick={this.insertWords}
 										className={`${styles.word} ${index < (preview.words || options.words) ? styles.active : ''}`}
 									>{word} </span>)}
+									{isEmail && <span className={`${styles.word} ${styles.active} ${styles.email}`}>{text}</span>}
 								</div>
 							</div>
 						</div>}

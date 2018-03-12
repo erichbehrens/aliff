@@ -10,17 +10,23 @@ const chunks = text
 			.replace(/(\d)([A-z][A-z]+)/g, '$1 $2'));
 const unique = Array.from(new Set(chunks));
 
-function getWord() {
-	return unique[Math.round(Math.random() * unique.length)];
+function getRandomNumber(from, to = 0) {
+	const range = Math.abs(from - to);
+	const min = Math.min(from, to);
+	return Math.round(min + (Math.random() * range));
 }
 
-const randomSort = () => (Math.random() > 0.5 ? -1 : 1);
+function getWord() {
+	return unique[getRandomNumber(unique.length)];
+}
+
+const randomSort = () => (Math.random() < 0.5 ? -1 : 1);
 
 const getRandom = array => array[Math.floor(Math.random() * array.length)];
 
 function averageRandom(input, deviation = 0.3) {
 	const maxDeviation = Math.round(input * deviation);
-	const random = Math.round(Math.random() * maxDeviation * 2) - maxDeviation;
+	const random = getRandomNumber(maxDeviation * 2) - maxDeviation;
 	return input + random;
 }
 
@@ -43,7 +49,7 @@ function getWords(count, flatten = true, html = false) {
 	for (let i = 1; i < count; i++) {
 		if (html && Math.random() > 0.8) {
 			const tag = getRandom(htmlTags);
-			const groupSize = Math.round(Math.random() * 3);
+			const groupSize = getRandomNumber(3);
 			const groupWords = [];
 			for (let j = 0; j < groupSize; j++) {
 				groupWords.push(getWord());
@@ -82,8 +88,35 @@ function getParagraphs(count, paragraphSentences, words = 12, html = false) {
 	return paragraphs.sort(randomSort).join('\n');
 }
 
+function getEmail() {
+	const userSeparators = ['', '.', '_'];
+	const domainSeparators = ['', '', '-', '-', '.'];
+	const domains = ['com', 'net', 'org'];
+	const address = [];
+	if (Math.random() < 0.2) {
+		address.push(getRandomNumber(99));
+	}
+	address.push(getWord());
+	address.push(getRandom(userSeparators));
+	address.push(getWord());
+	if (Math.random() < 0.3) {
+		address.push(getRandomNumber(99));
+	}
+	address.push('@');
+	address.push(getWord());
+	if (Math.random() < 0.3) {
+		address.push(getRandom(domainSeparators));
+		address.push(getWord());
+	}
+	address.push('.');
+	address.push(getRandom(domains));
+	return address.join('');
+}
+
 export {
 	getWords,
 	getSentences,
 	getParagraphs,
+	getEmail,
+	getRandomNumber,
 };

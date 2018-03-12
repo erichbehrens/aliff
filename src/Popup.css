@@ -38,6 +38,7 @@ body {
 
     &.singleline {
       width: 100%;
+      overflow: hidden;
     }
 
     &.multiline {
@@ -76,6 +77,14 @@ body {
         background: rgba(88, 255, 152, .5);
         white-space: nowrap;
       }
+
+      &.tel {
+        background-image: unset;
+
+        & .selection {
+          width: 100%;
+        }
+      }
     }
 
     & .word {
@@ -85,6 +94,11 @@ body {
       &.active {
         color: #333;
         background: rgba(88, 255, 152, .5);
+      }
+
+      &.email {
+        font-size: 1.1em;
+        display: block;
       }
     }
   }
