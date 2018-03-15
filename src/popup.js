@@ -81,7 +81,7 @@ class Popup extends React.Component {
 			let { text } = this.state;
 			switch (mode) {
 				case 'words':
-					if ([ARROW.DOWNUP, ARROW.RIGHT].includes(keyCode)) {
+					if ([ARROW.DOWN, ARROW.RIGHT].includes(keyCode)) {
 						options.words = Math.min(options.words + 1, 10);
 					} else if ([ARROW.UP, ARROW.LEFT].includes(keyCode)) {
 						options.words = Math.max(options.words - 1, 1);
