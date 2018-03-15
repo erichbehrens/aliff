@@ -84,8 +84,7 @@ button {
     visibility: hidden;
   }
 
-  &:hover:after,
-  &:focus:after {
+  &:active:after {
     visibility: visible;
     animation: ripple .5s ease-out;
   }

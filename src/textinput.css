@@ -1,5 +1,5 @@
 fieldset {
-  margin: 40px 0;
+  margin: 16px 0;
   width: 100%;
   position: relative;
   display: block;
@@ -11,13 +11,15 @@ fieldset {
     position: absolute;
     display: block;
     top: 23px;
-	left: 0;
+    left: 0;
     z-index: 2;
     font-size: 16px;
     transition: all 200ms ease-in-out;
     width: 100%;
     cursor: text;
+    color: rgba(0, 0, 0, 0.3);
   }
+
   & input[type="text"],
   & input[type="email"],
   & input[type="tel"],
@@ -25,8 +27,8 @@ fieldset {
   & input[type="url"],
   & textarea {
     position: absolute;
-	top: 15px;
-	left: 0;
+    top: 15px;
+    left: 0;
     z-index: 1;
     width: 100%;
     font-size: 16px;
@@ -40,6 +42,7 @@ fieldset {
     &:focus {
       border-bottom: 2px solid rgb(33, 150, 243);
     }
+
     &:focus,
     &:valid {
       & + label {
@@ -75,10 +78,12 @@ fieldset {
       animation: ripple 0.5s ease-out;
     }
   }
+
   & textarea {
-    min-height: 60px;
+    height: 100%;
     padding: 8px 0;
   }
+
   & input {
     height: 30px;
   }

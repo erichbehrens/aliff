@@ -10,14 +10,36 @@ body {
 .contentEditable {
   border: 1px solid #ccc;
   padding: 10px;
+  width: 100%;
 }
 
 .panel {
   box-shadow: 0 8px 17px 0 rgba(0, 0, 0, 0.2);
   padding: 16px;
+  margin: 16px;
+  margin-bottom: 32px;
 }
 
-.playground{
-  width: 800px;
+.options{
+  min-width: 400px;
+  max-width: 800px;
   margin: 40px auto;
+}
+
+.playground {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+
+  & .description{
+    width: 50%;
+  }
+  & .field {
+    width: 50%;
+    padding: 16px;
+    box-sizing: border-box;
+  }
+}
+.textarea {
+  height: 200px;
 }
