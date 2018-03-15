@@ -3,13 +3,20 @@ import ReactDOM from 'react-dom';
 import styles from './Popup.css';
 import { getWords, getParagraphs, getEmail, getRandomNumber } from './utils/loremIpsum';
 
+const ARROW = {
+	LEFT: 37,
+	UP: 38,
+	RIGHT: 39,
+	DOWN: 40,
+};
+
 class Popup extends React.Component {
 	state = {
 		text: '',
 		options: {
 			words: 4,
 			paragraphs: 5,
-			paragraphSentences: 8,
+			paragraphSentences: 12,
 			numberPower: 4,
 			html: false,
 		},
@@ -37,17 +44,22 @@ class Popup extends React.Component {
 						options.html = true;
 						nextState.options = options;
 						nextState.text = this.getText('paragraphs', options);
+						nextState.mode = 'paragraphs';
 					} else if (['div', 'textarea'].includes(response.elementType)) {
 						options.html = response.elementType === 'div';
 						nextState.options = options;
 						nextState.text = this.getText('paragraphs', options);
+						nextState.mode = 'paragraphs';
 					} else if (['number', 'tel'].includes(response.type)) {
 						options.numberPattern = response.type === 'tel' ? '+## ## ### ## ##' : undefined;
 						nextState.text = this.getNumber(options);
+						nextState.mode = 'number';
 					} else if (['email'].includes(response.type)) {
 						nextState.text = this.getText('email');
+						nextState.mode = 'email';
 					} else {
 						nextState.text = this.getText('words');
+						nextState.mode = 'words';
 					}
 					this.setState(nextState, this.setEnterHandler);
 				},
@@ -59,7 +71,48 @@ class Popup extends React.Component {
 		window.addEventListener('keyup', (event) => {
 			if (event.which === 13) {
 				this.action();
+				return;
 			}
+			const keyCode = event.which;
+			if (![ARROW.UP, ARROW.RIGHT, ARROW.DOWN, ARROW.LEFT].includes(keyCode)) {
+				return;
+			}
+			const { mode, options } = this.state;
+			let { text } = this.state;
+			switch (mode) {
+				case 'words':
+					if ([ARROW.DOWNUP, ARROW.RIGHT].includes(keyCode)) {
+						options.words = Math.min(options.words + 1, 10);
+					} else if ([ARROW.UP, ARROW.LEFT].includes(keyCode)) {
+						options.words = Math.max(options.words - 1, 1);
+					}
+					break;
+				case 'paragraphs':
+					if (ARROW.UP === keyCode) {
+						options.paragraphs = Math.max(options.paragraphs - 1, 1);
+					} else if (ARROW.DOWN === keyCode) {
+						options.paragraphs = Math.min(options.paragraphs + 1, 10);
+					} else if (ARROW.LEFT === keyCode) {
+						options.paragraphSentences = Math.max(options.paragraphSentences - 1, 1);
+					} else if (ARROW.RIGHT === keyCode) {
+						options.paragraphSentences = Math.min(options.paragraphSentences + 1, 15);
+					}
+					text = this.getText('paragraphs', options);
+					break;
+				case 'number':
+					if ([ARROW.RIGHT].includes(keyCode)) {
+						options.numberPower = Math.min(options.numberPower + 1, 10);
+					} else if ([ARROW.LEFT].includes(keyCode)) {
+						options.numberPower = Math.max(options.numberPower - 1, 1);
+					}
+					text = this.getNumber(options);
+					break;
+				case 'email':
+					text = this.getText('email', options);
+					break;
+				default: return;
+			}
+			this.setState({ options, text });
 		});
 	}
 
