@@ -10,6 +10,7 @@ module.exports = {
 		options: './src/options.js',
 		analytics: './src/analytics.js',
 		contentscript: './src/contentscript.js',
+		background: './src/background.js',
 	},
 	output: {
 		path: path.join(__dirname, 'build'),
