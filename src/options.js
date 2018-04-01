@@ -9,13 +9,8 @@ class Options extends React.Component {
 			<div className={`${styles.panel}`}>
 				<h1>ALIFF</h1>
 				<h2>Awesome Lorem Ipsum Generator &amp; Form Filler</h2>
-				<p>Select a field and press <strong>CTRL+Q</strong> to open ALIFF.</p>
-				<p>
-					You can now generate lorem and copy it to the clipboard.
-					If you selected an input field on the page you're viewing, ALIFF will detect its type and generate contextual lorem.
-				</p>
-				<p>Use the <strong>arrow keys</strong> or move your <strong>mouse</strong> on the grids to customize the options</p>
-				<p>Press Enter to insert your lorem.</p>
+				<p>Select an input field on your page, press <strong>CTRL+Q</strong>, press enter. Done!</p>
+				<p>You can also use your <strong>arrow keys</strong> or <strong>mouse</strong> to play around with the settings and customize the length of the text to insert or generate different values.</p>
 			</div>
 			<div className={`${styles.panel}`}>
 				<h3>Playground</h3>
@@ -45,6 +40,19 @@ class Options extends React.Component {
 						</fieldset>
 					</div>
 					<div className={styles.description}>
+						<h4>Number</h4>
+						<p>Generates a random number. From left to right each box generates a number with a greater power of 10. First box 0-9, second 100-999, third 1000-9999 etc.</p>
+						<p>Arrow left/right: decrease/increase the power</p>
+						<p>Arrow up/down: generate a new number with the current power setting</p>
+						<p>Mouse: move to generate new numbers andcustomize the power, then click insert</p>
+					</div>
+					<div className={styles.field}>
+						<fieldset>
+							<input id="number" type="number" required />
+							<label htmlFor="number">Some number</label>
+						</fieldset>
+					</div>
+					<div className={styles.description}>
 						<h4>Phone</h4>
 						<p>Generates a random phone number.</p>
 						<p>Arrow keys / mouse move: generate a new number</p>
@@ -55,20 +63,7 @@ class Options extends React.Component {
 							<label htmlFor="tel">Phone</label>
 						</fieldset>
 					</div>
-					<div className={styles.description}>
-						<h4>Number</h4>
-						<p>Generates a random number. From left to right each box generates a number with a greater power of 10. First box 0-9, second 100-999, third 1000-9999 etc.</p>
-						<p>Arrow left/right: decrease/increase the power</p>
-						<p>Arrow up/down: generate a new number with the current power setting</p>
-						<p>Mouse: move and click to generate new numbers, customize the power and insert</p>
-					</div>
-					<div className={styles.field}>
-						<fieldset>
-							<input id="number" type="number" required />
-							<label htmlFor="number">Some number</label>
-						</fieldset>
-					</div>
-					<h4>Textarea</h4>
+					<h4>Paragraph</h4>
 					<p>
 						Generates random paragraphs.
 						You can select the number of paragraphs and number of sentences in each paragraph.
