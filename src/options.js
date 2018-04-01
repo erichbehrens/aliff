@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 import React from 'react';
 import ReactDOM from 'react-dom';
 import styles from './Options.css';
@@ -8,10 +9,11 @@ class Options extends React.Component {
 			<div className={`${styles.panel}`}>
 				<h1>ALIFF</h1>
 				<h2>Awesome Lorem Ipsum Generator &amp; Form Filler</h2>
-				<p>Press <strong>CTRL+Q</strong> or <strong>Command+Q</strong> to open ALIFF.</p>
+				<p>Select a field and press <strong>CTRL+Q</strong> to open ALIFF.</p>
 				<p>
 					You can now generate lorem and copy it to the clipboard.
-						If you selected an input field on the page you're viewing, ALIFF will detect its type and generate contextual lorem.</p>
+					If you selected an input field on the page you're viewing, ALIFF will detect its type and generate contextual lorem.
+				</p>
 				<p>Use the <strong>arrow keys</strong> or move your <strong>mouse</strong> on the grids to customize the options</p>
 				<p>Press Enter to insert your lorem.</p>
 			</div>

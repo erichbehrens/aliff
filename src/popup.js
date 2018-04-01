@@ -33,6 +33,7 @@ class Popup extends React.Component {
 	}
 
 	getActiveElement = () => {
+		chrome.tabs.executeScript({ file: 'contentscript.js' });
 		chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
 			chrome.tabs.sendMessage(
 				tabs[0].id,
